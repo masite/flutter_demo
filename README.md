@@ -1,7 +1,7 @@
 # flutter_demo
-flutter 学习德莫
+flutter 学习德莫 
 
-控制背景
+控制背景  https://blog.csdn.net/chenlove1/article/details/83627831
 ```  decoration /同级color 不能共存。
 Container(
                 height: 100,
