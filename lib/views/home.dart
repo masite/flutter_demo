@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         pageNo++;
         _getMoreData();
       }
@@ -57,10 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final CustomArgumnets customArgumnets =
-        ModalRoute
-            .of(context)
-            .settings
-            .arguments;
+        ModalRoute.of(context).settings.arguments;
     if (icons.length == 0) {
       icons.add("assets/images/1.png");
       icons.add("assets/images/2.png");
@@ -94,32 +92,25 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold)),
           brightness: Brightness.light,
           backgroundColor: Color(int.parse("0xffF8F8F8"))),
-
       body: Container(
         child: RefreshIndicator(
           onRefresh: _refresh,
           child: SingleChildScrollView(
-//              controller: _scrollController,
+              controller: _scrollController,
               padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Column(
                 children: <Widget>[
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
                     child: Text("今日推荐",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   //-------------------横向列表
                   Container(
                       height: 167,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: cardbeanList.length,
@@ -167,14 +158,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
                     child: Text("0-2岁",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   _getList(),
                 ],
@@ -185,28 +173,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() async {
-    cardbeanList.clear();
-    await _getHttp();
+    pageNo = 1;
+    cardbeanList2.clear();
+    getFeedBooks();
     return null;
   }
 
   Widget _getList() {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         shrinkWrap: true,
         physics: new NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
-        itemCount: cardbeanList2.length,
+        itemCount: cardbeanList2.length + 1,
         itemBuilder: (context, index) {
-          return Container(
-            height: 150,
-            child: _createListItem(index),
-          );
+          if (index == cardbeanList2.length) {
+            return _buildProgressIndicator();
+          } else {
+            return Container(
+              height: 150,
+              child: _createListItem(index),
+            );
+          }
         },
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: 1.0,
+          child: new CircularProgressIndicator(),
+        ),
       ),
     );
   }
@@ -218,10 +220,7 @@ class _HomePageState extends State<HomePage> {
         alignment: const FractionalOffset(0.0, 0.0),
         children: <Widget>[
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.fromLTRB(0, 35, 0, 0),
             child: Container(
               decoration: new BoxDecoration(
@@ -264,7 +263,7 @@ class _HomePageState extends State<HomePage> {
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
               image: new DecorationImage(
-                image: new ExactAssetImage(icons[index]),
+                image: new ExactAssetImage(icons[index % 6]),
                 fit: BoxFit.cover,
               ),
             ),
@@ -309,18 +308,18 @@ class _HomePageState extends State<HomePage> {
   void _getHttp() async {
     List books;
     try {
-      Response response = await _dio.get(
-          "http://114.55.172.160:28080/v1/children-stories/0-2/recommended");
+      Response response = await _dio
+          .get("https://toolsapi.neets.cc/v1/children-stories/0-2/recommended");
       if (response.statusCode == HttpStatus.OK) {
         books = json.decode(response.data.toString());
         setState(() {
           cardbeanList =
               books.map((m) => new RecommendBean.fromJson(m)).toList();
         });
-        print(response);
+        print("--- $response");
       }
     } catch (e) {
-      print(e);
+      print("--- $e");
       Fluttertoast.showToast(msg: "HttpStatus.end  $e");
     }
   }
@@ -328,13 +327,15 @@ class _HomePageState extends State<HomePage> {
   void getFeedBooks() async {
     try {
       Response response = await _dio.get(
-          "http://114.55.172.160:28080/v1/children-stories/0-2/feed?pageNo=$pageNo&pageSize=$pageSize");
+          "https://toolsapi.neets.cc/v1/children-stories/0-2/feed?pageNo=$pageNo&pageSize=$pageSize");
       if (response.statusCode == HttpStatus.OK) {
+        feedBooksBean =
+            FeedBooksBean.fromJson(json.decode(response.data.toString()));
         setState(() {
-            feedBooksBean = FeedBooksBean.fromJson(json.decode(response.data.toString()));
-            cardbeanList2.addAll(feedBooksBean.list);
+          cardbeanList2.addAll(feedBooksBean.list);
         });
-        print(response);
+
+        print(" --- ${response.request.path}");
       }
     } catch (e) {
       print(e);
@@ -354,8 +355,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 }
-
-
 
 // ignore: class_in_class
 class CustomArgumnets {
