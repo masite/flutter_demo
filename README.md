@@ -1,4 +1,5 @@
-# flutter_demo
+### https://book.flutterchina.club/chapter4/alignment.html flutter 中文网
+# flutter_demo  
 flutter 学习德莫 
 
 控制背景  https://blog.csdn.net/chenlove1/article/details/83627831
