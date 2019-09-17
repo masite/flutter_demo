@@ -24,7 +24,7 @@ Container(
 #### 控件圆角 https://juejin.im/post/5b519fb05188251b1b448ec5
 
 ### 裁剪  https://blog.csdn.net/qq_39969226/article/details/100836203
-···
+```
 自定义裁剪，获取到的坐标是裁剪组建父布局的大小。
 
 class TopPath extends CustomClipper<Path> {
@@ -39,5 +39,5 @@ class TopPath extends CustomClipper<Path> {
       ..close();
     return path;
   }
-···
+```
 
