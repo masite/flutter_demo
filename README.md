@@ -41,3 +41,5 @@ class TopPath extends CustomClipper<Path> {
   }
 ```
 #### [实现Tab顶部吸附固定效果]https://www.cnblogs.com/qiufang/p/11314473.html
+
+#### https://pub.dev/packages/sticky_headers 类似通讯录首字母 悬停
