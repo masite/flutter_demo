@@ -51,3 +51,14 @@ Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text('提交成功...'),
                   ));
 ```
+
+#### 网络请求 及 数据解析  https://juejin.im/post/5c9f5963e51d451367658f78 
+```
+Future 未指定返回数据类型时，可以通过 is来判断
+
+ if (smsBean is bool) {
+
+      } else if (smsBean is SmsBean) {
+
+      }
+```
