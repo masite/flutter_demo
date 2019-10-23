@@ -45,3 +45,9 @@ class TopPath extends CustomClipper<Path> {
 #### https://pub.dev/packages/sticky_headers 类似通讯录首字母 悬停
 
 #### https://github.com/xuelongqy/flutter_easyrefresh 刷新加载框架
+
+```
+Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text('提交成功...'),
+                  ));
+```
