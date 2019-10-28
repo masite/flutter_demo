@@ -62,3 +62,12 @@ Future 未指定返回数据类型时，可以通过 is来判断
 
       }
 ```
+#### singlechildScroll 嵌套 listview时，竖向的需要设置设置   shrinkWrap: true,不然会报错
+```
+Vertical viewport was given unbounded height.
+
+```
+横向的需要给listview设置高度。 gridview 同
+
+
+
