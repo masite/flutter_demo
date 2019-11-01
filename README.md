@@ -71,5 +71,27 @@ Vertical viewport was given unbounded height.
 
 #### https://www.kikt.top/posts/flutter/dialog/dialog-2/ 带进场动画的dialog
 
+#### textSpan用法 
+```
+Text.rich(TextSpan(
+                children: [
+                  TextSpan(
+                      text: "1、"
+                  ),
+                  TextSpan(
+                    text: "点击“立即绑定”",
+                    style: TextStyle(
+                        color: Colors.blue
+                    ),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        print("----");
+                      }
+                    ,
+                  ),
+                ]
+            ))
+```
+
 
 
