@@ -69,5 +69,7 @@ Vertical viewport was given unbounded height.
 ```
 横向的需要给listview设置高度。 gridview 同
 
+#### https://www.kikt.top/posts/flutter/dialog/dialog-2/ 带进场动画的dialog
+
 
 
